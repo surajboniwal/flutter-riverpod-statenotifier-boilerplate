@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
                   subtitle: Text(users[index].email),
                 ),
               ),
-              error: (error) => Center(child: Text('Unable to load users')),
+              error: (error) => Center(child: Text(error ?? 'Unable to load users')),
             );
           },
         ),

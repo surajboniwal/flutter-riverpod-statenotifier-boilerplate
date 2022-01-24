@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod_statenotifier_boilerplate/core/logger.dart';
 import 'package:flutter_riverpod_statenotifier_boilerplate/core/network_client.dart';
 import 'package:flutter_riverpod_statenotifier_boilerplate/core/response.dart';
@@ -8,6 +9,8 @@ abstract class BaseUserRepository {
 }
 
 class UserRepository with BaseRepository implements BaseUserRepository {
+  static final provider = Provider<UserRepository>((ref) => UserRepository());
+
   @override
   Future<ApiResponse<List<User>>> fetchUsers() async {
     try {

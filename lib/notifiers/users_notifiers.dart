@@ -5,17 +5,20 @@ import 'package:flutter_riverpod_statenotifier_boilerplate/data/repositories/use
 import 'package:flutter_riverpod_statenotifier_boilerplate/states/users/users_state.dart';
 
 class UsersNotifier extends StateNotifier<UsersState> {
-  UsersNotifier() : super(UsersState.initial()) {
+  UsersNotifier(this.userRepository) : super(UsersState.initial()) {
     getUsers();
   }
 
-  static final provider = StateNotifierProvider<UsersNotifier, UsersState>((ref) => UsersNotifier());
+  UserRepository userRepository;
+
+  static final provider =
+      StateNotifierProvider<UsersNotifier, UsersState>((ref) => UsersNotifier(ref.read(UserRepository.provider)));
 
   Future<void> getUsers() async {
-    ApiResponse<List<User>> response = await UserRepository().fetchUsers();
+    ApiResponse<List<User>> response = await userRepository.fetchUsers();
 
     if (response.status == Status.ERROR) {
-      state = UsersState.error();
+      state = UsersState.error(response.message);
       return;
     }
 
